@@ -3,7 +3,34 @@ import styles from "../styles/Home.module.css"
 import Head from "next/head"
 import Link from "next/link"
 
-const Users = (props: any) => {
+interface UserProps {
+  allUsers: User[]
+}
+
+interface User {
+  id: string
+  name: string
+  username: string
+  address: {
+    street: string
+    suite: string
+    city: string
+    zipcode: number
+    geo: {
+      lat: number
+      lng: number
+    }
+  }
+  phone: number
+  website: string
+  company: {
+    name: string
+    catchPhrase: string
+    bs: string
+  }
+}
+
+const Users = (props: UserProps) => {
   const [search, setSearch] = useState("")
   const { allUsers } = props
 
@@ -16,7 +43,7 @@ const Users = (props: any) => {
       return allUsers
     }
     return allUsers.filter(
-      (user: any) =>
+      (user) =>
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.username.toLowerCase().includes(search.toLowerCase())
     )
@@ -44,7 +71,7 @@ const Users = (props: any) => {
           </main>
         </div>
         <main className="flex flex-wrap cursor-pointer justify-center">
-          {filteredUsers.map((user: any) => {
+          {filteredUsers.map((user) => {
             return (
               <Link className={styles.details} href={`/${user.id}`}>
                 <h2>{user.id}</h2>
