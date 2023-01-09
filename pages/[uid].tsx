@@ -3,8 +3,13 @@ import { useState } from "react"
 import styles from "../styles/Home.module.css"
 import Link from "next/link"
 import { FaArrowLeft } from "react-icons/fa"
+import { User } from "../src/types/index"
 
-const User = (props: any) => {
+interface Users {
+  userDetail: User
+}
+
+const User = (props: Users) => {
   const [userDetails, setUserDetails] = useState(props.userDetail)
 
   return (
@@ -52,7 +57,7 @@ const User = (props: any) => {
           <p>
             <span className="w-40 sm:inline-block block">Street No.:</span>
             <span className="text-rose-900 text-2xl">
-              {userDetails.address.street}
+              {userDetails?.address?.street}
             </span>
           </p>
           <p>
@@ -113,7 +118,7 @@ const User = (props: any) => {
   )
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: { params: { uid: number } }) {
   const { uid } = context.params
   const data = await fetch(`https://jsonplaceholder.typicode.com/users/${uid}`)
   const userDetail = await data.json()
